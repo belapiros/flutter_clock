@@ -15,7 +15,7 @@ How to run:
 ```
 
 ```dart
-  - cd <name>_clock
+  - cd digital_clock
 ```
 
 ```dart
