@@ -80,13 +80,55 @@ class _DigitalClockState extends State<DigitalClock> {
   Widget build(BuildContext context) {
     final hour =
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
+    final hourTens = hour[0];
+    final hourOnes = hour[1];
     final minute = DateFormat('mm').format(_dateTime);
+    final minuteTens = minute[0];
+    final minuteOnes = minute[1];
+
+    final imageWidth = MediaQuery.of(context).size.width / 5;
+    final cursorHeight = (MediaQuery.of(context).size.height / 3) * 1.8;
+    final cursorThikness = 2.0;
 
     return Container(
-      child: Row(
+      color: Colors.black,
+      child: Stack(
         children: <Widget>[
-          Text(hour),
-          Text(minute),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/${hourTens}.png',
+                  width: imageWidth,
+                ),
+                Image.asset(
+                  'assets/images/${hourOnes}.png',
+                  width: imageWidth,
+                ),
+                SizedBox(
+                  width: cursorThikness,
+                ),
+                Image.asset(
+                  'assets/images/${minuteTens}.png',
+                  width: imageWidth,
+                ),
+                Image.asset(
+                  'assets/images/${minuteOnes}.png',
+                  width: imageWidth,
+                ),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              height: cursorHeight,
+              child: VerticalDivider(
+                color: Colors.white,
+                thickness: cursorThikness,
+              ),
+            ),
+          ),
         ],
       ),
     );
