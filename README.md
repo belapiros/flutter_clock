@@ -2,6 +2,8 @@
 
 My submission for the Flutter Clock Challenge.
 
+<img src='digital_clock/Screenshot.jpg' width='350'>
+
 Check [flutter.dev/clock](https://flutter.dev/clock) for details about the challenge.
 
 How to run:
