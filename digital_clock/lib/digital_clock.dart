@@ -1,4 +1,4 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
+// Copyright 2020 Bela Piros. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -24,6 +24,7 @@ class DigitalClock extends StatefulWidget {
 class _DigitalClockState extends State<DigitalClock> {
   DateTime _dateTime = DateTime.now();
   Timer _timer;
+  bool _cursorVisible = true;
 
   @override
   void initState() {
@@ -61,18 +62,29 @@ class _DigitalClockState extends State<DigitalClock> {
       _dateTime = DateTime.now();
       // Update once per minute. If you want to update every second, use the
       // following code.
-      _timer = Timer(
-        Duration(minutes: 1) -
-            Duration(seconds: _dateTime.second) -
-            Duration(milliseconds: _dateTime.millisecond),
-        _updateTime,
-      );
-      // Update once per second, but make sure to do it at the beginning of each
-      // new second, so that the clock is accurate.
       // _timer = Timer(
-      //   Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+      //   Duration(minutes: 1) -
+      //       Duration(seconds: _dateTime.second) -
+      //       Duration(milliseconds: _dateTime.millisecond),
       //   _updateTime,
       // );
+      //  Update once per second, but make sure to do it at the beginning of each
+      //  new second, so that the clock is accurate.
+      _timer = Timer(
+        Duration(seconds: 1) -
+            Duration(milliseconds: _dateTime.millisecond) -
+            Duration(microseconds: _dateTime.microsecond),
+        () {
+          _updateTime();
+          _blinkCursor();
+        },
+      );
+    });
+  }
+
+  void _blinkCursor() {
+    setState(() {
+      _cursorVisible = !_cursorVisible;
     });
   }
 
@@ -87,8 +99,12 @@ class _DigitalClockState extends State<DigitalClock> {
     final minuteOnes = minute[1];
 
     final imageWidth = MediaQuery.of(context).size.width / 5;
+
     final cursorHeight = (MediaQuery.of(context).size.height / 3) * 1.8;
-    final cursorThikness = 2.0;
+    final cursorThickness = 2.0;
+    final cursorColor = _cursorVisible
+        ? Color.fromRGBO(53, 205, 232, 1.0)
+        : Color.fromRGBO(53, 205, 232, 0.0);
 
     return Container(
       color: Colors.black,
@@ -107,7 +123,7 @@ class _DigitalClockState extends State<DigitalClock> {
                   width: imageWidth,
                 ),
                 SizedBox(
-                  width: cursorThikness,
+                  width: 10.0,
                 ),
                 Image.asset(
                   'assets/images/${minuteTens}.png',
@@ -121,12 +137,12 @@ class _DigitalClockState extends State<DigitalClock> {
             ),
           ),
           Center(
-            child: Container(
+            child: AnimatedContainer(
+              width: cursorThickness,
               height: cursorHeight,
-              child: VerticalDivider(
-                color: Colors.white,
-                thickness: cursorThikness,
-              ),
+              color: cursorColor,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.linear,
             ),
           ),
         ],
