@@ -30,4 +30,4 @@ How to run:
 
 How to read time:
 
-<img src='digital_clock/InstructionsToReadTime.jpg' width='1000'>
+<img src='digital_clock/InstructionsToReadTime.jpg' width='500'>
