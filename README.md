@@ -27,3 +27,7 @@ How to run:
 ```dart
   - flutter run (on Android in landscape)
 ```
+
+How to read time:
+
+<img src='digital_clock/InstructionsToReadTime.jpg' width='1000'>
